@@ -239,6 +239,15 @@ should be the same unit/without unit (i.e. all px, em, nothing, etc).<br/>
 
 <h2 id="set-upnotes:">Set-Up Notes:</h2>
 
+<h6 id="disabledoptions">Disabled Options</h6>
+
+<p>If you add the <code>disabled</code> attribute to an option it will add class <code>fauxDisabled</code> on the corresponding fauxOption.<br/>
+Clicking that option will reset the field, clearing <code>selected</code> attributes from options and closing the select. Good option<br/>
+if you do not want <code>defaultOption</code>, but would rather have your first option as a disabled &#8220;placeholder&#8221;. This is also a good<br/>
+option if you want to add more styling for that particular disabled option.</p>
+
+<h6 id="dataclasses">Data Classes</h6>
+
 <p>You can add <code>data-class</code> on select or individual options to add those classes to the <code>fauxEl</code> or individual <code>fauxOption</code> respectively</p>
 
 <p><em>Example</em>:</p>

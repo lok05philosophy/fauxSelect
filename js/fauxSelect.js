@@ -121,7 +121,11 @@ $.fn.fauxSelect = function( userParameters ) {
 
 				this.children().each(function(index) {
 					var optionText = $(this).text(),
-						fClasses = $(this).data('class') ? $(this).data('class').split(' ') : null;
+						fClasses = $(this).data('class') ? $(this).data('class').split(' ') : [];
+
+					if ( $(this).attr('disabled') ) {
+						fClasses.push('fauxDisabled');
+					}
 
 					// checks if the character replace option is select
 					if ( options.optionCharReplace ) {
@@ -430,15 +434,22 @@ $.fn.fauxSelect = function( userParameters ) {
 					$(this).css('z-index', numOps - index);
 					$(this).click(function() {
 						var sIndex = $(this).index();
-						if ( sel.fEl.hasClass('open') && sel.fInput === '' ) {
+						if ( sel.fEl.hasClass('open') && sel.fInput === '' && !$(this).hasClass('fauxDisabled') ) {
 							sel.choose(sel, sIndex);
 						} else if ( !sel.fEl.hasClass('open') && sel.fInput === '' ) {
 							sel.expand();
-						} else if ( sel.fEl.hasClass('open') && sel.fInput !== '' ) {
+						} else if ( sel.fEl.hasClass('open') && sel.fInput !== '' && !$(this).hasClass('fauxDisabled') ) {
 							sel.choose(sel, sIndex);
 						}
-						if ( sel.fInput !== '' ) {
+						if ( sel.fInput !== '' && !$(this).hasClass('fauxDisabled') ) {
 							sel.choose(sel, sIndex, true);
+						}
+						if ( $(this).hasClass('fauxDisabled') ) {
+							sel.fSelect.children().removeClass('chosen').css('z-index', 'auto');
+							sel.fEl.removeClass('selected');
+
+							sel.children().removeProp('selected');
+							sel.close();
 						}
 					});
 				});

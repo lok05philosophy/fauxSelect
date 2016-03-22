@@ -183,6 +183,15 @@ should be the same unit/without unit (i.e. all px, em, nothing, etc).
 ***
 ## Set-Up Notes:
 
+###### Disabled Options
+
+If you add the `disabled` attribute to an option it will add class `fauxDisabled` on the corresponding fauxOption.  
+Clicking that option will reset the field, clearing `selected` attributes from options and closing the select. Good option  
+if you do not want `defaultOption`, but would rather have your first option as a disabled "placeholder". This is also a good  
+option if you want to add more styling for that particular disabled option.
+
+###### Data Classes
+
 You can add `data-class` on select or individual options to add those classes to the `fauxEl` or individual `fauxOption` respectively
 
 _Example_:
