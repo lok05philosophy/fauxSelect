@@ -1,0 +1,131 @@
+@import "helpers";
+@import "faux-config";
+
+// CORE PLUGIN STYLING: DO NOT DISABLE
+.faux {
+	&El {
+		position: relative;
+		z-index: 10;
+		cursor: pointer;
+		select {
+			position: relative;
+			opacity: 0;
+			filter: alpha(opacity=0);
+			z-index: -1;
+			height: 0;
+			width: 0;
+		}
+	}
+	&Wrapper {
+		position: absolute;
+		// height: 100%;
+		width: 100%;
+		-webkit-overflow-scrolling: touch;
+		-ms-overflow-style: none;
+		overflow: -moz-scrollbars-none;
+		z-index: -1;
+		&::-webkit-scrollbar {
+			width: 0 !important;
+		}
+		.fauxEl.open & {
+			z-index: 3;
+		}
+	}
+	&Dropper {
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+	}
+	&Head, &Option {
+		top: 0;
+		box-sizing: border-box;
+		position: absolute;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		width: 100%;
+		background-color: #fff;
+		@include ease($a_properties, $a_duration, $a_timing_function);
+		.fauxEl.open & {
+			overflow: visible;
+			white-space: normal;
+		}
+	}
+	&Head, &Dropper {
+		z-index: 3;
+		@include prefix(transition-delay, $a_duration);
+		@include ease(z-index, 0.05s, linear);
+		.fauxEl.selected & {
+			@include prefix(transition-delay, 0s);
+			z-index: -1 !important;
+		}
+	}
+	&Dropper {
+		.fauxEl.open & {
+			z-index: 2 !important;
+		}
+	}
+	&Arrow {
+		z-index: 4;
+		position: absolute;
+		height: 100%;
+		right: 0;
+		top: 0;
+	}
+}
+
+// CONFIGURATION STYLING: WILL CHANGE BASED ON CONFIG
+
+// generates
+$faux_font_keys: map-keys($faux_fonts);
+@each $font_key in $faux_font_keys{
+	#{$font_key}{
+		@include font($faux_height, (
+			map-get($faux_fonts, $font_key)
+		)...);
+	}
+}
+
+@if $faux_height == null {
+	$faux_height: em(45);
+}
+@else {
+	@if unitless($faux_height) or unit($faux_height) != 'em' {
+		$faux_height: strip-unit($faux_height);
+		$faux_height: em($faux_height);
+	}
+}
+
+.faux {
+	&El {
+		height: $faux_height;
+		width: 100%;
+		&.focus {
+			outline: 1px dashed darken(whitesmoke, 10);
+			outline-offset: -3px;
+		}
+	}
+	&Wrapper {
+		height: $faux_height;
+		.fauxEl.maxHeight & {
+			overflow: hidden;
+			@include ease(height, $a_duration, $a_timing_function);
+		}
+		.fauxEl.maxHeight.open & {
+			overflow: scroll;
+			-webkit-overflow-scrolling: touch;
+			-ms-overflow-style: none;
+			overflow: -moz-scrollbars-none;
+			z-index: -1;
+			&::-webkit-scrollbar {
+				width: 0 !important;
+			}
+		}
+	}
+	&Arrow {
+		width: map-get($faux_arrow, width);
+		background-color: map-get($faux_arrow, background-color);
+	}
+}

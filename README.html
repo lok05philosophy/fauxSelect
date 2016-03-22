@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+</head>
+<body>
+<h1 id="fauxselect">fauxSelect</h1>
+
+<hr />
+
+<p>VERSION 2.0.0</p>
+
+<p>Major version updates include:
+* Removes:
+ * <code>bottomSpacer</code> and
+ * <code>transitionDelay</code> options
+* Changes:
+ * <code>placeHolder</code> is now <code>defaultOption</code> with updated options
+* Additions:
+ * <code>optionCharReplace</code> and
+ * <code>focusExpander</code> options</p>
+
+<hr />
+
+<h2 id="javascript">Javascript</h2>
+
+<h4 id="call">Call</h4>
+
+<p>In your javascript file simply run <code>.fauxSelect()</code> on your target element and pass optional parameters in object notation</p>
+
+<p><em>Example</em>:</p>
+
+<p><code>$('select').fauxSelect();</code></p>
+
+<p>-or-
+<code>
+$('select').fauxSelect({
+    defaultOption: 'label',
+    arrow: true,
+    optionCharReplace: ['&quot;', 'em'],
+    maxHeight: 250
+});
+</code></p>
+
+<p><br></p>
+
+<h4 id="options">Options</h4>
+
+<p><br>
+<code>defaultOption</code> - (default <code>false</code>)</p>
+
+<table>
+<colgroup>
+<col style="text-align:left;"/>
+<col style="text-align:left;"/>
+</colgroup>
+
+<thead>
+<tr>
+	<th style="text-align:left;">Option</th>
+	<th style="text-align:left;">Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+	<td style="text-align:left;"><code>false</code></td>
+	<td style="text-align:left;">Nothing is added/changed and first option will be default option</td>
+</tr>
+<tr>
+	<td style="text-align:left;"><code>'data'</code></td>
+	<td style="text-align:left;">give select <code>data-placeholder</code> attribute with text you want as your default option</td>
+</tr>
+<tr>
+	<td style="text-align:left;"><code>'label'</code></td>
+	<td style="text-align:left;">uses <code>&lt;label&gt;</code> associated with select (must be <code>for</code> select to read it)</td>
+</tr>
+</tbody>
+</table>
+
+<p><br>
+<code>arrow</code> - (default <code>false</code>)</p>
+
+<p>Boolean - either adds <code>fauxArrow</code> for <code>true</code> or does nothing <code>false</code></p>
+
+<p><br>
+<code>optionCharReplace</code> - (default <code>false</code>)</p>
+
+<table>
+<colgroup>
+<col style="text-align:left;"/>
+<col style="text-align:left;"/>
+</colgroup>
+
+<thead>
+<tr>
+	<th style="text-align:left;">Option</th>
+	<th style="text-align:left;">Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+	<td style="text-align:left;"><code>false</code></td>
+	<td style="text-align:left;">Does nothing</td>
+</tr>
+<tr>
+	<td style="text-align:left;">Array (i.e. <code>['-', 'span']</code>)</td>
+	<td style="text-align:left;">Replaces special character in options (index 0) with markup tags (index 1)</td>
+</tr>
+</tbody>
+</table>
+
+<p><br>
+<code>focusExpander</code> - (default <code>true</code>)</p>
+
+<p>Boolean - adds additional &#8220;normal&#8221; select functionality
+* Allows tabbing focus
+* Down arrow opens when focused
+* Down/Up arrows navigate options when open
+* Enter selects highlighted option
+* Adds <code>.fauxHover</code> class on arrow navigated options.
+* User input searches through option text for matches</p>
+
+<p><br></p>
+
+<h4 id="triggers">Triggers</h4>
+
+<p><code>faux-initialized</code> runs when element is finished setting up.</p>
+
+<p><em>Returns</em>:
+* Select object
+* Options</p>
+
+<p><em>Example</em>:
+```
+$(&#8216;select&#8217;).on(&#8216;faux-initialized&#8217;, function(event, sel, opts) {
+ $(this).focus(function() {
+ sel.fEl.addClass(&#8216;focus&#8217;);
+ });
+ $(this).blur(function() {
+ sel.fEl.removeClass(&#8216;focus&#8217;);
+ });
+ sel.fArrow.append(&#8220;<div><img src="../images/your-cool-arrow.png"></div>&#8221;);</p>
+
+<pre><code>$(window).on('load resize', function(){
+    if ( $(this).width() &gt; 1000 ) {
+        opts.maxHeight = 250;
+    } else {
+        opts.maxHeight = 150;
+    }
+});
+</code></pre>
+
+<p>});
+```</p>
+
+<p><br>
+<code>faux-typing</code> runs when element has focus and user is typing</p>
+
+<p><em>Returns</em>:
+* User input (lowercase)</p>
+
+<p><em>Example</em>:
+<code>
+$('.fauxEl').on('faux-typing', function(event, input) {
+    if ( $(this).next('p')[0] ) {
+        $('.fauxEl').next('p').text('Your input was: '+input);
+    } else {
+        $(this).after('&lt;p&gt;Your input was: '+input+'&lt;/p&gt;');
+    }
+});
+</code></p>
+
+<p><br>
+<code>faux-choose</code> runs when an object is chosen</p>
+
+<p><em>Returns</em>:
+* Select object
+* Selected option index</p>
+
+<p><em>Example</em>:
+<code>
+$('.fauxEl').on('faux-choose', function(event, sel, index) {
+    console.log('You chose: option ' + index);
+});
+</code></p>
+
+<p><br>
+<code>faux-expand</code> runs when select is expanded</p>
+
+<p><em>Returns</em>:
+* Select object
+* Expanded height</p>
+
+<p><em>Example</em>:
+<code>
+$('.fauxEl').on('faux-expand', function(event, sel, height) {
+    console.log('Select height is: ' + height);
+});
+</code></p>
+
+<hr />
+
+<h2 id="scsscss:">SCSS (CSS):</h2>
+
+<p>Taking full advantage of this plugin involves use of scss. You can just copy CSS and change certain styling from in there,<br/>
+but including <code>_helpers</code>, <code>_faux-config</code> and <code>_fauxSelect</code> scss files will allow you to customize styling from the config file.<br/>
+In your main scss file only include <code>_fauxSelect</code> and in <code>_fauxSelect</code> include first <code>_helpers</code> then <code>_faux-config</code>.</p>
+
+<h4 id="animationproperties">Animation Properties</h4>
+
+<p>Can include multiple properties, durations and timing functions as long as they are separated by commas.<br/>
+If multiple properties are written, they will correspond to same index of other properties.</p>
+
+<p><em>Example</em>:
+<code>
+$a_properties     : top, background-color;
+$a_duration       : 500ms, 0.25s;
+$a_timing_function: ease-in-out;
+</code>
+<code>500ms</code> corresponds to <code>top</code> while <code>0.25s</code> corresponds to <code>background-color</code>, and <em>both</em> properties will have a<br/>
+<code>timing-function</code> of <code>ease-in-out</code>.</p>
+
+<h4 id="elementstyling">Element Styling</h4>
+
+<p><code>faux_height</code> will give the height of the element</p>
+
+<p><code>faux_fonts</code>: include a key for each unique element you need to style. Can just<br/>
+use <code>'.fauxHead'</code> and <code>'.fauxOption'</code> or more detailed <code>'.fauxEl.unique .fauxOption'</code> selector.</p>
+
+<p><code>faux_arrow</code> can specify a background color and width to the <code>fauxArrow</code> element.</p>
+
+<p><em>NOTE</em>: <code>faux_height</code> and the <code>font-size</code> and <code>line-height</code> of each <code>faux_font</code><br/>
+should be the same unit/without unit (i.e. all px, em, nothing, etc).<br/>
+** Kind of assumes using <code>px</code> height without the <em>actual</em> unit label.</p>
+
+<hr />
+
+<h2 id="set-upnotes:">Set-Up Notes:</h2>
+
+<p>You can add <code>data-class</code> on select or individual options to add those classes to the <code>fauxEl</code> or individual <code>fauxOption</code> respectively</p>
+
+<p><em>Example</em>:</p>
+
+<pre><code>&lt;select data-class=&quot;medium&quot;&gt;
+    ...
+&lt;/select&gt;
+</code></pre>
+
+<p>will return
+<code>
+&lt;div class=&quot;fauxEl medium&quot;&gt;
+    ...
+&lt;/div&gt;
+</code>
+<em>AND</em>
+<code>
+&lt;select&gt;
+    &lt;option&gt;&lt;/option&gt;
+    &lt;option data-class=&quot;special-option&quot;&gt;&lt;/option&gt;
+    &lt;option&gt;&lt;/option&gt;
+&lt;/select&gt;
+</code>
+will return
+<code>
+&lt;div class=&quot;fauxEl&quot;&gt;
+    ...
+    &lt;div class=&quot;fauxSelect&quot;&gt;
+        &lt;div class=&quot;fauxOption&gt;&lt;/div&gt;
+        &lt;div class=&quot;fauxOption special-option&quot;&gt;&lt;/div&gt;
+        &lt;div class=&quot;fauxOption&gt;&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></p>
+
+</body>
+</html>

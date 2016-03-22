@@ -1,0 +1,88 @@
+@function strip-unit($num){
+    @return $num / ($num * 0 + 1);
+}
+@function em($px, $base:16) {
+	@return ($px / $base) * 1em;
+}
+@function rem($px) {
+	@return ($px / 16) * 1rem;
+}
+@mixin prefix($property, $value){
+    @each $prefix in -webkit-, -ms-, -o-, -moz-, '' {
+        #{$prefix}#{$property}: $value;
+    }
+}
+@mixin ease($properties: all, $durations: 0.35s, $easings: ease){
+	$final: ();
+
+	@if length($properties) > 1{
+		@each $property in $properties{
+			$index: index($properties, $property);
+			@if length($durations) == length($properties) and length($easings) == length($properties){
+				$final: append($final, $property nth($durations, $index) nth($easings, $index), comma);
+			}
+			@else if length($durations) == length($properties) and length($easings) == 1{
+				$final: append($final, $property nth($durations, $index) nth($easings, 1), comma)
+			}
+			@else if length($easings) == length($properties) and length($durations) == 1{
+				$final: append($final, $property nth($durations, 1) nth($easings, $index), comma);
+			}
+			@else if length($easings) == 1 and length($durations) == 1{
+				$final: append($final, $property nth($durations, 1) nth($easings, 1), comma);
+			}
+		}
+	}
+	@else{
+		$final: nth($properties, 1) nth($durations, 1) nth($easings, 1);
+	}
+	@include prefix(transition, $final);
+}
+@mixin font-sizing($faux_height, $font_size:null, $line_height:null) {
+	@if $faux_height == null {
+		$faux_height: em(45);
+	}
+	@else {
+		@if unitless($faux_height) or unit($faux_height) != 'em' {
+			$faux_height: strip-unit($faux_height);
+			$faux_height: em($faux_height);
+		}
+	}
+	@if $font_size == null {
+		$font_size: em(16);
+	}
+	@else {
+		@if unitless($font_size) or unit($font_size) != 'em' {
+			$font_size: strip-unit($font_size);
+			$font_size: em($font_size);
+		}
+	}
+	@if $line_height == null {
+		$line_height: em(16);
+	}
+	@else {
+		@if unitless($line_height) or unit($line_height) != 'em' {
+			$line_height: strip-unit($line_height);
+			$line_height: em($line_height);
+		}
+	}
+	line-height: $line_height;
+	font-size: $font_size;
+	padding-top: #{($faux_height - $line_height) / 2};
+	padding-bottom: #{($faux_height - $line_height) / 2};
+}
+@mixin font($faux_height:50, $font-family:null, $font-size:null, $color:null, $line-height:null, $text-transform:null, $padding:null, $background-color:null, $background-hover:null){
+	// NOTE: uncomment if using extends for fonts
+	// @if $font-family != null{
+	// 	@extend %#{$font-family};
+	// }
+	font-family:$font-family;
+	color:$color;
+	text-transform:$text-transform;
+	padding:$padding;
+	background-color:$background-color;
+	&:hover, &.fauxHover {
+		background-color:$background-hover;
+	}
+
+	@include font-sizing($faux_height, $font-size, $line-height);
+}

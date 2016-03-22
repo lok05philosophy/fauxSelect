@@ -1,0 +1,6 @@
+.codekit-cache
+scss/.sass-cache
+scss/_reset.scss
+scss/global.scss
+config.codekit
+js/functions.js
