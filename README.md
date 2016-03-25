@@ -1,11 +1,19 @@
 # fauxSelect
 ***
 
-VERSION 2.0.1
+VERSION 2.0.2
 
+2.0.2
+Minor update:
+If `maxHeight` option is selected, it would set the height of `fauxWrapper` to that height.  
+Now it will either be set to`maxHeight` if the total height of options is greater than `maxHeight`  
+or will set it to the total height of the options.
+
+2.0.1
 Minor update:
 Removed `overflow: -moz-scrollbars-none;`. Was intended to remove scrollbars, but didn't allow scrolling on Firefox
 
+2.0.0
 Major version updates include:
 * Removes:
 	* `bottomSpacer` and
