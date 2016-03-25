@@ -192,7 +192,10 @@ $.fn.fauxSelect = function( userParameters ) {
 				});
 
 				if ( options.maxHeight ) {
-					this.fWrapper.css('height', options.maxHeight);
+					this.fWrapper.css({
+						'max-height': options.maxHeight,
+						'height': t
+					});
 				}
 
 				this.trigger('faux-expand', [this, t]);
