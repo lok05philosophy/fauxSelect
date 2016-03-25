@@ -1,7 +1,10 @@
 # fauxSelect
 ***
 
-VERSION 2.0.0
+VERSION 2.0.1
+
+Minor update:
+Removed `overflow: -moz-scrollbars-none;`. Was intended to remove scrollbars, but didn't allow scrolling on Firefox
 
 Major version updates include:
 * Removes:

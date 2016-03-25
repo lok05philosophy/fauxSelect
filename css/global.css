@@ -83,7 +83,6 @@ input, select {
   width: 100%;
   -webkit-overflow-scrolling: touch;
   -ms-overflow-style: none;
-  overflow: -moz-scrollbars-none;
   z-index: -1; }
   .fauxWrapper::-webkit-scrollbar {
     width: 0 !important; }
@@ -181,7 +180,6 @@ input, select {
     overflow: scroll;
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: none;
-    overflow: -moz-scrollbars-none;
     z-index: -1; }
     .fauxEl.maxHeight.open .fauxWrapper::-webkit-scrollbar {
       width: 0 !important; }
