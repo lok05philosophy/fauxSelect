@@ -7,6 +7,8 @@
 		position: relative;
 		z-index: 10;
 		cursor: pointer;
+        @include ease(z-index);
+        @include prefix(transition-delay, $a_duration);
 		select {
 			position: relative;
 			opacity: 0;
@@ -15,6 +17,11 @@
 			height: 0;
 			width: 0;
 		}
+        &.open {
+            z-index: 11;
+            @include ease(none);
+            @include prefix(transition-delay, 0);
+        }
 	}
 	&Wrapper {
 		position: absolute;
