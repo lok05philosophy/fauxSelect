@@ -1,7 +1,12 @@
 # fauxSelect
 ***
 
-VERSION 2.1.0
+VERSION 2.1.1
+
+2.1.1
+Patch:
+Related to 2.0.2 - if `maxHeight` is reached adds property `overflow: scroll` to `fauxWrapper`  
+otherwise puts it at `overflow: auto`
 
 2.1.0
 Minor Update:
