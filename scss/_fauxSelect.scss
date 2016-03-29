@@ -30,6 +30,7 @@
 		-webkit-overflow-scrolling: touch;
 		-ms-overflow-style: none;
 		z-index: -1;
+		overflow: auto;
 		&::-webkit-scrollbar {
 			width: 0 !important;
 		}
@@ -116,11 +117,11 @@ $faux_font_keys: map-keys($faux_fonts);
 	&Wrapper {
 		height: $faux_height;
 		.fauxEl.maxHeight & {
-			overflow: hidden;
+			// overflow: hidden;
 			@include ease(height, $a_duration, $a_timing_function);
 		}
 		.fauxEl.maxHeight.open & {
-			overflow: scroll;
+			// overflow: scroll;
 			-webkit-overflow-scrolling: touch;
 			-ms-overflow-style: none;
 			z-index: -1;

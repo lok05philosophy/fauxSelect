@@ -193,15 +193,9 @@ $.fn.fauxSelect = function( userParameters ) {
 
 				if ( options.maxHeight ) {
 					if ( t > options.maxHeight ) {
-						this.fWrapper.css({
-							'height': options.maxHeight,
-							'overflow': 'scroll'
-						});
+						this.fWrapper.css('height', options.maxHeight);
 					} else {
-						this.fWrapper.css({
-							'height': t,
-							'overflow': 'auto'
-						});
+						this.fWrapper.css('height', t);
 					}
 				}
 
