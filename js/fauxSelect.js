@@ -154,8 +154,20 @@ $.fn.fauxSelect = function( userParameters ) {
 						}
 					}
 
+					var href = $(this).data('href') ? $(this).data('href') : null,
+						target = $(this).data('target') ? ' target="' + $(this).data('target') + '"' : '',
+						link;
+
+					if ( href ) {
+						link = '<a href="' + href + '"';
+						link += target;
+						link += '></a>';
+					} else {
+						link = '';
+					}
+
 					// sets the faux option text (with or without additionally generated markup)
-					sel.fSelect.append('<div class="fauxOption">' + optionText + '</div>');
+					sel.fSelect.append('<div class="fauxOption">' + optionText + link + '</div>');
 
 					if ( fClasses ) {
 						for (var o = 0; o < fClasses.length; o++) {
@@ -204,25 +216,37 @@ $.fn.fauxSelect = function( userParameters ) {
 
 			// _choose
 			choose: function(obj, index, close) {
-				obj.fSelect.children()
-					.removeClass('fauxHover')
-					.eq(index)
-						.addClass('chosen')
-						.css('z-index', numOps + 1)
-					.siblings().each(function() {
-						$(this)
-							.removeClass('chosen')
-							.css('z-index', $(this).index());
+				if ( !obj.children().eq(index).data('href') ) {
+					obj.fSelect.children()
+						.removeClass('fauxHover')
+						.eq(index)
+							.addClass('chosen')
+							.css('z-index', numOps + 1)
+						.siblings().each(function() {
+							$(this)
+								.removeClass('chosen')
+								.css('z-index', $(this).index());
+						});
+
+					// adds selected property to real option
+					obj.children().eq(index).prop('selected', 'selected').siblings().removeProp('selected');
+
+					obj.fEl.addClass('selected');
+				} else {
+					var expander = (options.defaultOption) ? obj.fHead : obj.fDropper;
+					obj.fEl.removeClass('selected');
+					expander.css('z-index', numOps + 2);
+					obj.fSelect.children().each(function() {
+						$(this).removeClass('chosen').css('z-index', 'auto');
 					});
 
-				// adds selected property to real option
-				obj.children().eq(index).prop('selected', 'selected').siblings().removeProp('selected');
+					obj.children().removeProp('selected');
+					obj.close();
+				}
 
 				if ( !close ) {
 					obj.close();
 				}
-
-				obj.fEl.addClass('selected');
 
 				this.trigger('faux-choose', [this, index]);
 			},
