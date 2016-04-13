@@ -1,7 +1,11 @@
 # fauxSelect
 ***
 
-VERSION 2.1.2
+VERSION 2.1.3
+
+2.1.3
+Patch:
+Remove fauxDropper element since it was breaking crap
 
 2.1.2
 Patch:
