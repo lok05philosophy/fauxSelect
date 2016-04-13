@@ -61,9 +61,6 @@ $.fn.fauxSelect = function( userParameters ) {
 				// @REF _setHeader
 				if ( options.defaultOption ) {
 					this.setHeader(options.defaultOption);
-				} else {
-					this.fWrapper.prepend('<div class="fauxDropper"/>');
-					this.fDropper = this.fWrapper.find('.fauxDropper');
 				}
 
 				// creates a drop down indicator if arrow (option) is true
@@ -389,25 +386,27 @@ $.fn.fauxSelect = function( userParameters ) {
 				// @REF _setMarkup
 				this.setMarkup();
 
-				var sel = this,
-					// sets expander to either faux head or faux dropper
-					expander = (options.defaultOption) ? this.fHead : this.fDropper;
+				var sel = this;
 
-				// expander either expands faux select or resets it if open
-				expander
-					.css('z-index', numOps + 2)
-					.click(function() {
-						if ( sel.fEl.hasClass('open') ) {
+				if ( options.defaultOption ) {
+					// expander either expands faux select or resets it if open
+					this.fHead
+						.css('z-index', numOps + 2)
+						.click(function() {
+							if ( sel.fEl.hasClass('open') ) {
 
-							sel.fSelect.children().removeClass('chosen').css('z-index', 'auto');
-							sel.fEl.removeClass('selected');
+								sel.fSelect.children().removeClass('chosen').css('z-index', 'auto');
+								sel.fEl.removeClass('selected');
 
-							sel.children().removeProp('selected');
-							sel.close();
-						} else {
-							sel.expand();
-						}
-					});
+								sel.children().removeProp('selected');
+								sel.close();
+							} else {
+								sel.expand();
+							}
+						});
+				}
+
+
 
 				// arrow expand/close
 				if ( this.fEl.find('.fauxArrow')[0] ) {

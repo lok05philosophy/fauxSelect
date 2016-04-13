@@ -40,13 +40,6 @@
 			overflow: auto;
 		}
 	}
-	&Dropper {
-		position: absolute;
-		top: 0;
-		left: 0;
-		height: 100%;
-		width: 100%;
-	}
 	&Head, &Option {
 		top: 0;
 		box-sizing: border-box;
@@ -62,18 +55,13 @@
 			white-space: normal;
 		}
 	}
-	&Head, &Dropper {
+	&Head {
 		z-index: 3;
 		@include prefix(transition-delay, $a_duration);
 		@include ease(z-index, 0.05s, linear);
 		.fauxEl.selected & {
 			@include prefix(transition-delay, 0s);
 			z-index: -1 !important;
-		}
-	}
-	&Dropper {
-		.fauxEl.open & {
-			z-index: 2 !important;
 		}
 	}
 	&Arrow {
