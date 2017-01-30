@@ -120,13 +120,11 @@ Faux.prototype.charReplace = function ( option ) {
  * @fires defaultMarkup
  */
 Faux.prototype.setMarkup = function() {
-	var objectHTML = this.object.cloneNode( true ),	// clone object
-		objectOpts = this.object.childNodes;		// get object children
+	var	objectOpts = this.object.childNodes;	// get object children
 
-	// creates fauxElement and appends select clone
+	// create fauxElement
 	this.fauxEl = document.createElement( 'div' );
 	this.fauxEl.className = this.setClasses( this.object, 'fauxEl' );
-	this.fauxEl.appendChild( objectHTML );
 
 	// creates fauxWrapper
 	this.fauxWrapper = document.createElement( 'div' );
@@ -141,7 +139,10 @@ Faux.prototype.setMarkup = function() {
 			this.defaultMarkup( objectOpts );
 	}
 
-	this.object.outerHTML = this.fauxEl.outerHTML;
+	// insert fauxEl into dom and append the object
+	this.object.parentNode.insertBefore( this.fauxEl, this.object )
+	this.fauxEl.append( this.object );
+	this.fauxEl.addEventListener( 'click', this.fauxExpand );
 };
 
 
@@ -182,6 +183,9 @@ Faux.prototype.selectMarkup = function( options/*, value*/ ) {
 			// }
 			this.fauxWrapper.appendChild( fauxOption );
 
+			if ( !( 'ontouchstart' in document.documentElement ) ) {
+				options[i].style.display = 'none';
+			}
 		}
 	}
 
@@ -204,6 +208,7 @@ Faux.prototype.defaultMarkup = function( options ) {
 			fauxOption.className = this.setClasses( options[i], 'fauxOption' );
 			fauxOption.innerHTML = nodeHTML;
 			this.fauxWrapper.appendChild( fauxOption );
+			options[i].style.display = 'none';
 
 		}
 	}
@@ -238,11 +243,22 @@ Faux.prototype.init = function ( userParameters ) {
 function fauxSelect( selector, userParameters ) {
 	var array = document.querySelectorAll( selector );
 
-	for (var i = 0; i < array.length; i++) {
-		var faux = new Faux( array[i], userParameters );
-		faux.init( userParameters );
+	if ( array[0] ) {
+		for (var i = 0; i < array.length; i++) {
+			var faux = new Faux( array[i], userParameters );
+			faux.init( userParameters );
+		}
 	}
 }
+
+// document.querySelector( 'body' ).addEventListener( 'click', function(e) {
+// 	var clickTarget = e.target;
+//
+// 	if ( clickTarget.className.indexOf( 'fauxOption' ) > -1 ) {
+// 		console.log(clickTarget.closest( '.fauxEl' ));
+// 	}
+//
+// });
 
 fauxSelect( 'select', {
 	defaultOption: 'label',
