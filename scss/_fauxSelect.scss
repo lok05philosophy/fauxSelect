@@ -1,46 +1,94 @@
+select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	-ms-appearance: none;
+	appearance: none;
+	outline: none;
+	border: none;
+	background-color: transparent;
+	border-radius: 0;
+	padding: 0;
+	margin: 0;
+	width: 100%;
+}
+
 @import "helpers";
 @import "faux-config";
+//⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃
+//	Directory
+//⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃
+//
+//	_El
+//
+//⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⨷
 
 // CORE PLUGIN STYLING: DO NOT DISABLE
+
 .faux {
+
+	//---------------------------------
+	//	_El
+	//---------------------------------
 	&El {
 		position: relative;
 		z-index: 10;
 		cursor: pointer;
         @include ease(z-index);
         @include prefix(transition-delay, $a_duration);
+
 		select {
-			position: relative;
-			opacity: 0;
-			filter: alpha(opacity=0);
+			position: absolute;
+			top: 0;
+			left: 0;
+			height: 100%;
+			width: 100%;
 			z-index: -1;
-			height: 0;
-			width: 0;
+			@include ease($a_properties, $a_duration, $a_timing_function);
 		}
+
         &.open {
             z-index: 11;
             @include ease(none);
             @include prefix(transition-delay, 0);
         }
 	}
+
+	//---------------------------------
+	//	_Wrapper
+	//---------------------------------
 	&Wrapper {
 		position: absolute;
-		// height: 100%;
 		width: 100%;
 		-webkit-overflow-scrolling: touch;
 		-ms-overflow-style: none;
-		z-index: -1;
+		// z-index: -1;
+		overflow: hidden;
+		@include ease( height, $a_duration, $a_timing_function );
+
 		&::-webkit-scrollbar {
 			width: 0 !important;
 		}
 		.fauxEl.open & {
 			z-index: 3;
-		}
-		.fauxEl.maxHeight & {
 			overflow: auto;
 		}
 	}
-	&Head, &Option {
+
+	&Select {
+		height: 100%;
+		width: 100%;
+		position: relative;
+		z-index: 2;
+		.fauxEl.open & {
+			position: static;
+		}
+	}
+
+	//---------------------------------
+	//	_Children
+	//---------------------------------
+	&Head,
+	&Option {
 		top: 0;
 		box-sizing: border-box;
 		position: absolute;
@@ -50,6 +98,7 @@
 		width: 100%;
 		background-color: #fff;
 		@include ease($a_properties, $a_duration, $a_timing_function);
+
 		.fauxEl.open & {
 			overflow: visible;
 			white-space: normal;
@@ -58,9 +107,14 @@
 	&Head {
 		z-index: 3;
 		@include prefix(transition-delay, $a_duration);
-		@include ease(z-index, 0.05s, linear);
+		@include prefix(transition-duration, 0.05s);
+		// @include ease(z-index, 0.05s, linear);
+
 		.fauxEl.selected & {
 			@include prefix(transition-delay, 0s);
+		}
+
+		.fauxEl.selected:not(.open) & {
 			z-index: -1 !important;
 		}
 	}
@@ -77,8 +131,9 @@
 
 // generates
 $faux_font_keys: map-keys($faux_fonts);
-@each $font_key in $faux_font_keys{
-	#{$font_key}{
+@each $font_key in $faux_font_keys {
+
+	#{$font_key} {
 		@include font($faux_height, (
 			map-get($faux_fonts, $font_key)
 		)...);
@@ -98,8 +153,8 @@ $faux_font_keys: map-keys($faux_fonts);
 .faux {
 	&El {
 		height: $faux_height;
-		width: 100%;
-		&.focus {
+		// width: 100%;
+		&.fauxFocus {
 			outline: 1px dashed darken(whitesmoke, 10);
 			outline-offset: -3px;
 		}
@@ -107,7 +162,6 @@ $faux_font_keys: map-keys($faux_fonts);
 	&Wrapper {
 		height: $faux_height;
 		.fauxEl.maxHeight & {
-			// overflow: hidden;
 			@include ease(height, $a_duration, $a_timing_function);
 		}
 		.fauxEl.maxHeight.open & {

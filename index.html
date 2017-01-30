@@ -12,21 +12,32 @@
 	<form class="this_form" action="index.html" method="get">
 		<label for="test_select">This is a <em>more elaborate</em> label</label>
 		<!-- use data-class for adding custom classes to fauxEl -->
-		<select id="test_select" name="test_select" data-placeholder="This is a placeholder" data-class="wid50 bg-blue">
+		<select class="extra-classy" id="test_select" name="test_select" data-placeholder="This is a placeholder" data-class="wid50 bg-blue">
 			<option data-class="boo-yah hooray" value="test">test "tester"</option>
 			<option value="orange">orange</option>
 			<option value="blue">blue</option>
-			<option value="blurb">blurb</option>
-			<option value="jackalope">jackalope</option>
+			<option disabled="disabled" value="blurb">blurb</option>
+			<option value="jackalope" selected>jackalope</option>
 			<option value="backwater-hillbilly">backwater hillbilly</option>
 			<option value="shakakhan">shakakhan</option>
 			<option value="dagnabbit">dagnabbit</option>
 		</select>
+		<select id="test_select2" name="test_select2">
+			<option value="backwater-fightclub">backwater fightclub</option>
+			<option value="chocolate">chocolate</option>
+			<option value="purple">purple</option>
+		</select>
+		<ul>
+			<li>fart <span>the heart</span></li>
+			<li>hollah for a dollah</li>
+		</ul>
 	</form>
 
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-	<script type="text/javascript" src="js/fauxSelect.js"></script>
-	<script type="text/javascript" src="js/functions.js"></script>
+	<!-- <script type="text/javascript" src="js/vanilla.js"></script> -->
+	<script type="text/javascript" src="js/vanilla-main.js"></script>
+	<!-- <script type="text/javascript" src="js/fauxSelect.js"></script> -->
+	<!-- <script type="text/javascript" src="js/functions.js"></script> -->
 </body>
 
 </html>

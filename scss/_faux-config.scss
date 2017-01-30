@@ -1,7 +1,7 @@
 // DEFAULT OPTIONS: CHANGE AS NEEDED
 // animation properties
 $a_properties     : top, background-color;
-$a_duration       : 500ms, 0.25s;
+$a_duration       : 0.15s;
 $a_timing_function: ease-in-out;
 
 // NOTE: $faux_height and the font-size and line-height of each faux_font
@@ -20,9 +20,9 @@ $faux_fonts: (
 		text-transform: null,
 		padding: 0 75px 0 15px,
 		background-color: whitesmoke,
-		background-hover: null
+		background-hover: darken(whitesmoke, 10)
 	),
-	'.fauxOption': (
+	'.fauxOption, select': (
 		font-family: #{Arial, Helvetica Neue, Helvetica, sans-serif},
 		font-size: 16,
 		color: #231f20,
