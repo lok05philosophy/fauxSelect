@@ -13,11 +13,11 @@
 		<label for="test_select">This is a <em>more elaborate</em> label</label>
 		<!-- use data-class for adding custom classes to fauxEl -->
 		<select class="extra-classy" id="test_select" name="test_select" data-placeholder="This is a placeholder" data-class="wid50 bg-blue">
-			<option data-class="boo-yah hooray" value="test">test "tester"</option>
+			<option disabled="disabled" selected data-class="boo-yah hooray" value="test">test "tester"</option>
 			<option value="orange">orange</option>
 			<option value="blue">blue</option>
 			<option disabled="disabled" value="blurb">blurb</option>
-			<option value="jackalope" selected>jackalope</option>
+			<option value="jackalope">jackalope</option>
 			<option value="backwater-hillbilly">backwater hillbilly</option>
 			<option value="shakakhan">shakakhan</option>
 			<option value="dagnabbit">dagnabbit</option>
@@ -28,9 +28,10 @@
 			<option value="purple">purple</option>
 		</select>
 		<ul>
-			<li>fart <span>the heart</span></li>
+			<li selected>fart <span>the heart</span></li>
 			<li>hollah for a dollah</li>
 		</ul>
+		<input type="submit" name="submit" value="submit" style="margin-top: 50px;">
 	</form>
 
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
