@@ -14,14 +14,13 @@ function hasClass ( element, className ) {
 	return element.className.indexOf( className ) > -1;
 }
 function hasTarget ( target, element ) {
-	console.log(target);
 	if ( target === element ) {
 		return true;
 	} else {
 		var children = element.children;
 		if ( children[0] ) {
 			for ( var i = 0; i < children.length; i++ ) {
-				hasTarget( target, children[i] );
+				return hasTarget( target, children[i] );
 			}
 		} else {
 			return false;
@@ -157,7 +156,7 @@ Faux.prototype.styleOptions = function () {
 	for (var i = 0; i < this.fauxOptions.length; i++) {
 		this.fauxOptions[i].style.zIndex = this.numOpts - i;
 		if ( hasClass( this.fauxOptions[i], this.class.selected ) ) {
-			this.fauxOptions[i].style.zIndex = this.numOpts;
+			this.fauxOptions[i].style.zIndex = this.numOpts + 1;
 		}
 	}
 };
@@ -421,13 +420,12 @@ function fauxSelect( selector, userParameters ) {
 
 		document.addEventListener( 'click', function (e) {
 			for ( var i = 0; i < fauxObjectArray.length; i++ ) {
+				if ( !hasTarget( e.target, fauxObjectArray[i].fauxEl ) ) {
+					fauxObjectArray[i].fauxClose();
+				}
 				if ( i === 1 ) {
 					console.log( hasTarget( e.target, fauxObjectArray[i].fauxEl ) );
 				}
-				// console.log( hasTarget( e.target, fauxObjectArray[i].fauxEl ) );
-				// if ( !hasTarget( e.target, fauxObjectArray[i].fauxEl ) ) {
-				// 	fauxObjectArray[i].fauxClose();
-				// }
 			}
 		});
 	}
