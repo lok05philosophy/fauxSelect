@@ -17,16 +17,20 @@ function hasTarget ( target, element ) {
 	if ( target === element ) {
 		return true;
 	} else {
-		var children = element.children;
-		if ( children[0] ) {
+		var children = element.querySelectorAll( '*' ),
+			found    = false;
+		if ( children.length > 0 ) {
 			for ( var i = 0; i < children.length; i++ ) {
-				return hasTarget( target, children[i] );
+				found = hasTarget( target, children[i] );
+				if ( found ) {
+					return true;
+				}
 			}
-		} else {
 			return false;
 		}
 	}
 }
+
 //⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃
 //	Directory
 //⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃⁃
@@ -180,6 +184,11 @@ Faux.prototype.setMarkup = function () {
 	this.fauxWrapper.className = 'fauxWrapper';
 	this.fauxEl.appendChild( this.fauxWrapper );
 
+	// creates fauxSelect
+	this.fauxSelect = document.createElement( 'div' );
+	this.fauxSelect.className = 'fauxSelect';
+	this.fauxWrapper.appendChild( this.fauxSelect );
+
 	// gives faux wrapper a max height if parameter is not false
 	if ( this.params.maxHeight ) {
 		this.fauxWrapper.style.maxHeight = this.params.maxHeight + 'px';
@@ -194,7 +203,7 @@ Faux.prototype.setMarkup = function () {
 	}
 
 	// makes faux children array object property
-	this.fauxOptions = this.fauxWrapper.children;
+	this.fauxOptions = this.fauxSelect.children;
 	this.styleOptions();
 
 	// insert fauxEl into dom and append the object
@@ -237,7 +246,7 @@ Faux.prototype.selectMarkup = function ( options/*, value*/ ) {
 			fauxOption.innerHTML = nodeHTML;
 		}
 
-		this.fauxWrapper.appendChild( fauxOption );
+		this.fauxSelect.appendChild( fauxOption );
 
 		// if not touch device, hide object children
 		if ( !( 'ontouchstart' in document.documentElement ) ) {
@@ -268,7 +277,7 @@ Faux.prototype.defaultMarkup = function ( options ) {
 			addClass( fauxOption, this.class.disabled );
 		}
 		fauxOption.innerHTML = nodeHTML;
-		this.fauxWrapper.appendChild( fauxOption );
+		this.fauxSelect.appendChild( fauxOption );
 
 		// hide object children
 		options[i].style.display = 'none';
@@ -324,10 +333,8 @@ Faux.prototype.fauxChoose = function ( selected ) {
 		for ( var i = 0; i < this.fauxOptions.length; i++ ) {
 			if ( i === selected ) {
 				addClass( this.fauxOptions[i], this.class.selected );
-				this.object.children[i].setAttribute( 'selected', 'selected' );
 			} else {
 				removeClass( this.fauxOptions[i], this.class.selected );
-				this.object.children[i].removeAttribute( 'selected' );
 			}
 		}
 	}
@@ -364,6 +371,7 @@ Faux.prototype.fauxFocus = function () {
 Faux.prototype.fauxBlur = function () {
 	removeClass( this.fauxEl, this.class.open );
 	removeClass( this.fauxEl, this.class.focus );
+	this.fauxClose();
 };
 
 
@@ -423,9 +431,6 @@ function fauxSelect( selector, userParameters ) {
 				if ( !hasTarget( e.target, fauxObjectArray[i].fauxEl ) ) {
 					fauxObjectArray[i].fauxClose();
 				}
-				if ( i === 1 ) {
-					console.log( hasTarget( e.target, fauxObjectArray[i].fauxEl ) );
-				}
 			}
 		});
 	}
@@ -438,12 +443,11 @@ fauxSelect( 'select', {
 });
 fauxSelect( 'ul' );
 
-
-(function($) {
-
-	$('.this_form').submit(function(e) {
-		e.preventDefault();
-		console.log($(this).serialize());
-	});
-
-}(jQuery));
+// (function($) {
+//
+// 	$('.this_form').submit(function(e) {
+// 		e.preventDefault();
+// 		console.log($(this).serialize());
+// 	});
+//
+// }(jQuery));
